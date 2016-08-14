@@ -1,0 +1,27 @@
+box: miguelaferreira/transmission-postprocess:latest
+
+build:
+  steps:
+    - script:
+        name: install packages
+        code: |
+          pip install nose
+
+    - script:
+        name: setup environment
+        code: |
+          export UNRAR_LIB_PATH=/usr/lib/libunrar.so
+
+    - virtualenv:
+        name: setup virtual environment
+        install_wheel: true # Enable wheel to speed up builds (experimental)
+
+    # A step that executes `pip install` command.
+    - pip-install
+
+    # A custom script step, name value is used in the UI
+    # and the code value contains the command that get executed
+    - script:
+        name: unit tests
+        code: |
+          UNRAR_LIB_PATH=/usr/lib/libunrar.so nosetests test/
