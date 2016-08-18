@@ -12,14 +12,14 @@ ENV torrent_external=''
 ENV torrent_internal=''
 ENV puid='1000'
 ENV pgid='1000'
-CMD addgroup --gid ${pgid} abc
-CMD adduser --home /trdone \
-            --disabled-password \
-            --uid ${puid} \
-            --gid ${pgid} \
-            --gecos "First Last,RoomNumber,WorkPhone,HomePhone" \
-            abc
-CMD chown -R abc:abc /trdone
-CMD su --preserve-environment \
+CMD addgroup --gid ${pgid} abc \
+    && adduser --home /trdone \
+               --disabled-password \
+               --uid ${puid} \
+               --gid ${pgid} \
+               --gecos "First Last,RoomNumber,WorkPhone,HomePhone" \
+               abc \
+    && chown -R abc:abc /trdone \
+    && su --preserve-environment \
     -l abc \
     -c "UNRAR_LIB_PATH=/usr/lib/libunrar.so python trdone api -p 8080 -te ${torrent_external} -ti ${torrent_internal}"
