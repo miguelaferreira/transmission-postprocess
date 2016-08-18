@@ -20,6 +20,8 @@ CMD addgroup --gid ${pgid} abc \
                --gecos "First Last,RoomNumber,WorkPhone,HomePhone" \
                abc \
     && chown -R abc:abc /trdone \
+    && touch /root/.bash_profile \
+    && chmod 777 /root/.* \
     && su --preserve-environment \
-    -l abc \
-    -c "UNRAR_LIB_PATH=/usr/lib/libunrar.so python trdone api -p 8080 -te ${torrent_external} -ti ${torrent_internal}"
+          -l abc \
+          -c "UNRAR_LIB_PATH=/usr/lib/libunrar.so python trdone api -p 8080 -te ${torrent_external} -ti ${torrent_internal}"
