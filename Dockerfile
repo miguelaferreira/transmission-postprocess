@@ -7,21 +7,13 @@ VOLUME ['/downloads', '/processed']
 ADD . /trdone
 WORKDIR /trdone
 RUN pip install -r requirements.txt
+
 EXPOSE 80
+
 ENV torrent_external=''
 ENV torrent_internal=''
 ENV puid='1000'
 ENV pgid='1000'
-CMD addgroup --gid ${pgid} abc \
-    && adduser --home /trdone \
-               --disabled-password \
-               --uid ${puid} \
-               --gid ${pgid} \
-               --gecos "First Last,RoomNumber,WorkPhone,HomePhone" \
-               abc \
-    && chown -R abc:abc /trdone \
-    && touch /root/.bash_profile \
-    && chmod 777 /root/.* \
-    && su --preserve-environment \
-          -l abc \
-          -c "UNRAR_LIB_PATH=/usr/lib/libunrar.so python trdone api -p 8080 -te ${torrent_external} -ti ${torrent_internal}"
+
+ADD docker-entrypoint.sh /docker-entrypoint.sh
+ENTRYPOINT ["/docker-entrypoint.sh"]
